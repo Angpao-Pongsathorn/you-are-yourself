@@ -1,164 +1,183 @@
 import { motion } from 'framer-motion';
 
+const RINGS = [
+  { rx: 195, ry: 215, stroke: 'rgba(185,167,232,0.55)', sw: 1.5, dash: '0' },
+  { rx: 175, ry: 195, stroke: 'rgba(246,200,95,0.35)', sw: 1, dash: '4 6' },
+  { rx: 155, ry: 175, stroke: 'rgba(155,107,232,0.5)', sw: 1.5, dash: '0' },
+  { rx: 130, ry: 150, stroke: 'rgba(246,200,95,0.45)', sw: 1, dash: '2 5' },
+  { rx: 108, ry: 128, stroke: 'rgba(185,167,232,0.6)', sw: 1.5, dash: '0' },
+];
+
+const STARS = [
+  { x: 80, y: 170, size: 18, color: '#F6C85F', delay: 0 },
+  { x: 420, y: 130, size: 13, color: '#CE93D8', delay: 1.2 },
+  { x: 65, y: 360, size: 10, color: '#F6C85F', delay: 2.1 },
+  { x: 435, y: 330, size: 14, color: '#B388FF', delay: 0.7 },
+  { x: 130, y: 490, size: 9, color: '#F6C85F', delay: 1.8 },
+  { x: 370, y: 475, size: 11, color: '#CE93D8', delay: 3.0 },
+  { x: 250, y: 55, size: 15, color: '#FFD54F', delay: 0.4 },
+  { x: 175, y: 82, size: 7, color: '#E1BEE7', delay: 2.5 },
+  { x: 325, y: 82, size: 7, color: '#E1BEE7', delay: 1.5 },
+  { x: 100, y: 270, size: 8, color: '#CE93D8', delay: 3.5 },
+  { x: 400, y: 250, size: 9, color: '#F6C85F', delay: 2.8 },
+];
+
+function StarBurst({ x, y, size, color, delay }) {
+  return (
+    <motion.g
+      animate={{ rotate: [0, 180, 360], opacity: [0.5, 1, 0.5], scale: [0.8, 1.2, 0.8] }}
+      transition={{ duration: 4 + delay * 0.6, delay, repeat: Infinity, ease: 'easeInOut' }}
+      style={{ originX: x, originY: y, transformBox: 'fill-box', transformOrigin: 'center' }}
+    >
+      <text x={x} y={y} fontSize={size} fill={color} textAnchor="middle" dominantBaseline="central"
+        style={{ userSelect: 'none' }}>✦</text>
+    </motion.g>
+  );
+}
+
 export default function MirrorHeroVisual() {
   return (
-    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 480 }}>
-      <svg
-        viewBox="0 0 500 600"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        style={{ width: '100%', height: '100%', maxWidth: 500 }}
-      >
+    <div style={{ position: 'relative', width: '100%', height: '100%', minHeight: 520 }}>
+      <svg viewBox="0 0 500 600" fill="none" xmlns="http://www.w3.org/2000/svg"
+        style={{ width: '100%', height: '100%', maxWidth: 500 }}>
         <defs>
-          <radialGradient id="aura1" cx="50%" cy="40%" r="50%">
-            <stop offset="0%" stopColor="#C8B4F0" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#EDE4FF" stopOpacity="0" />
-          </radialGradient>
-          <radialGradient id="aura2" cx="50%" cy="60%" r="50%">
-            <stop offset="0%" stopColor="#F6C85F" stopOpacity="0.2" />
+          <radialGradient id="heroCore" cx="50%" cy="45%" r="50%">
+            <stop offset="0%" stopColor="#EDE4FF" stopOpacity="0.95" />
+            <stop offset="60%" stopColor="#DDD0FF" stopOpacity="0.6" />
             <stop offset="100%" stopColor="#F5F0FF" stopOpacity="0" />
           </radialGradient>
-          <radialGradient id="aura3" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stopColor="#9B6BE8" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#EDE4FF" stopOpacity="0" />
+          <radialGradient id="heroGoldAura" cx="50%" cy="55%" r="45%">
+            <stop offset="0%" stopColor="#FFF8DC" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="#F6C85F" stopOpacity="0" />
           </radialGradient>
-          {/* Mirror frame gradient */}
-          <linearGradient id="mirrorFrame" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#C8B4F0" stopOpacity="0.8" />
-            <stop offset="50%" stopColor="#F6C85F" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#9B6BE8" stopOpacity="0.4" />
+          <linearGradient id="crystalGrad" x1="10%" y1="0%" x2="90%" y2="100%">
+            <stop offset="0%" stopColor="#B388FF" />
+            <stop offset="40%" stopColor="#7B4BC8" />
+            <stop offset="100%" stopColor="#4A148C" />
           </linearGradient>
-          <linearGradient id="figGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#7B4BC8" stopOpacity="0.8" />
-            <stop offset="100%" stopColor="#9B6BE8" stopOpacity="0.5" />
+          <linearGradient id="crystalShine" x1="0%" y1="0%" x2="60%" y2="100%">
+            <stop offset="0%" stopColor="#FFFFFF" stopOpacity="0.6" />
+            <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
           </linearGradient>
-          <linearGradient id="figGrad2" x1="100%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#C8922A" stopOpacity="0.6" />
-            <stop offset="100%" stopColor="#C8B4F0" stopOpacity="0.3" />
+          <linearGradient id="goldRay" x1="50%" y1="0%" x2="50%" y2="100%">
+            <stop offset="0%" stopColor="#FFD54F" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#F6C85F" stopOpacity="0" />
           </linearGradient>
-          <linearGradient id="mirrorLine" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#F6C85F" stopOpacity="0.9" />
-            <stop offset="50%" stopColor="#9B6BE8" stopOpacity="0.7" />
-            <stop offset="100%" stopColor="#7B4BC8" stopOpacity="0.2" />
-          </linearGradient>
-          <filter id="glow">
+          <radialGradient id="gemGlow" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stopColor="#CE93D8" stopOpacity="0.7" />
+            <stop offset="100%" stopColor="#7B4BC8" stopOpacity="0" />
+          </radialGradient>
+          <filter id="heroBlur">
+            <feGaussianBlur stdDeviation="12" />
+          </filter>
+          <filter id="softGlow">
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
           </filter>
-          <filter id="softBlur">
-            <feGaussianBlur stdDeviation="8" />
-          </filter>
-          {/* Mirror glass fill */}
-          <linearGradient id="mirrorGlass" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#EDE4FF" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#FFF0F8" stopOpacity="0.2" />
-          </linearGradient>
         </defs>
 
-        {/* Soft background blobs */}
-        <ellipse cx="250" cy="280" rx="220" ry="260" fill="url(#aura1)" />
-        <ellipse cx="250" cy="350" rx="180" ry="200" fill="url(#aura2)" />
-        <ellipse cx="250" cy="280" rx="160" ry="200" fill="url(#aura3)" />
+        {/* Background aura layers */}
+        <ellipse cx="250" cy="300" rx="230" ry="260" fill="url(#heroCore)" />
+        <ellipse cx="250" cy="320" rx="190" ry="220" fill="url(#heroGoldAura)" />
 
-        {/* Mirror frame — oval with gradient stroke */}
-        <ellipse cx="250" cy="290" rx="168" ry="210"
-          fill="url(#mirrorGlass)"
-          stroke="url(#mirrorFrame)"
-          strokeWidth="2.5"
-        />
-        {/* Inner mirror rim */}
-        <ellipse cx="250" cy="290" rx="158" ry="200"
-          fill="none"
-          stroke="rgba(246, 200, 95, 0.3)"
-          strokeWidth="1"
-        />
-
-        {/* Mirror top ornament */}
-        <path d="M200 82 Q250 60 300 82" stroke="url(#mirrorFrame)" strokeWidth="2" fill="none" />
-        <circle cx="250" cy="68" r="5" fill="#F6C85F" fillOpacity="0.7" />
-        <circle cx="225" cy="76" r="3" fill="#C8B4F0" fillOpacity="0.6" />
-        <circle cx="275" cy="76" r="3" fill="#C8B4F0" fillOpacity="0.6" />
-
-        {/* Left figure — soft violet silhouette */}
-        <motion.g
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 9, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ellipse cx="175" cy="145" rx="28" ry="33" fill="url(#figGrad1)" fillOpacity="0.85" />
-          <rect x="168" y="174" width="14" height="18" rx="7" fill="#7B4BC8" fillOpacity="0.6" />
-          <path d="M132 202 Q147 187 175 192 Q203 187 218 202 L226 325 Q207 340 175 343 Q143 340 124 325 Z"
-            fill="url(#figGrad1)" fillOpacity="0.7" />
-          {/* Left arm */}
-          <path d="M132 207 Q113 242 108 290 Q106 308 118 318"
-            stroke="#7B4BC8" strokeWidth="12" strokeLinecap="round" fill="none" strokeOpacity="0.5" />
-          {/* Right arm */}
-          <path d="M218 207 Q237 242 242 290 Q244 308 232 318"
-            stroke="#7B4BC8" strokeWidth="12" strokeLinecap="round" fill="none" strokeOpacity="0.5" />
-        </motion.g>
-
-        {/* Mirror center line */}
-        <motion.line
-          x1="250" y1="65" x2="250" y2="520"
-          stroke="url(#mirrorLine)"
-          strokeWidth="1.5"
-          strokeDasharray="6 4"
-          filter="url(#glow)"
-          animate={{ opacity: [0.5, 0.9, 0.5] }}
-          transition={{ duration: 4, repeat: Infinity, ease: 'easeInOut' }}
-        />
-
-        {/* Right figure — golden reflection */}
-        <motion.g
-          animate={{ y: [0, -10, 0] }}
-          transition={{ duration: 9, delay: 0.4, repeat: Infinity, ease: 'easeInOut' }}
-        >
-          <ellipse cx="325" cy="145" rx="28" ry="33" fill="url(#figGrad2)" fillOpacity="0.5" />
-          <rect x="318" y="174" width="14" height="18" rx="7" fill="#C8922A" fillOpacity="0.3" />
-          <path d="M282 202 Q297 187 325 192 Q353 187 368 202 L376 325 Q357 340 325 343 Q293 340 274 325 Z"
-            fill="url(#figGrad2)" fillOpacity="0.35" />
-          {/* Arms */}
-          <path d="M282 207 Q263 242 258 290 Q256 308 268 318"
-            stroke="#C8922A" strokeWidth="12" strokeLinecap="round" fill="none" strokeOpacity="0.25" />
-          <path d="M368 207 Q387 242 392 290 Q394 308 382 318"
-            stroke="#C8922A" strokeWidth="12" strokeLinecap="round" fill="none" strokeOpacity="0.25" />
-        </motion.g>
-
-        {/* Crown aura */}
-        <motion.path
-          d="M175 108 Q250 85 325 108"
-          stroke="#F6C85F" strokeWidth="1.5" fill="none"
-          animate={{ opacity: [0.4, 0.8, 0.4] }}
-          transition={{ duration: 5, repeat: Infinity }}
-        />
-
-        {/* Ground shadow */}
-        <ellipse cx="250" cy="445" rx="130" ry="18"
-          fill="#C8B4F0" fillOpacity="0.2" filter="url(#softBlur)" />
-
-        {/* Sparkle particles */}
-        {[
-          { cx: 100, cy: 200, r: 3, color: '#F6C85F', delay: 0 },
-          { cx: 400, cy: 155, r: 2, color: '#C8B4F0', delay: 1 },
-          { cx: 85, cy: 370, r: 1.5, color: '#F6C85F', delay: 2 },
-          { cx: 415, cy: 340, r: 2.5, color: '#9B6BE8', delay: 0.5 },
-          { cx: 145, cy: 475, r: 1.5, color: '#7B4BC8', delay: 1.5 },
-          { cx: 355, cy: 460, r: 2, color: '#F6C85F', delay: 3 },
-          { cx: 320, cy: 110, r: 1.5, color: '#C8B4F0', delay: 2.5 },
-          { cx: 180, cy: 100, r: 1, color: '#F6C85F', delay: 0.8 },
-        ].map((p, i) => (
-          <motion.circle key={i} cx={p.cx} cy={p.cy} r={p.r} fill={p.color}
-            animate={{ opacity: [0, 1, 0], scale: [0.5, 1.3, 0.5], y: [0, -12, 0] }}
-            transition={{ duration: 4 + i * 0.5, delay: p.delay, repeat: Infinity, ease: 'easeInOut' }}
+        {/* Animated rotating rings */}
+        {RINGS.map((r, i) => (
+          <motion.ellipse key={i} cx="250" cy="300"
+            rx={r.rx} ry={r.ry}
+            stroke={r.stroke} strokeWidth={r.sw}
+            strokeDasharray={r.dash}
+            fill="none"
+            animate={{ rotate: [0, i % 2 === 0 ? 360 : -360] }}
+            transition={{ duration: 18 + i * 6, repeat: Infinity, ease: 'linear' }}
+            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
           />
         ))}
 
-        {/* IG-style small star decorations */}
-        <motion.text x="92" y="195" fontSize="14" fill="#F6C85F" fillOpacity="0.8"
-          animate={{ opacity: [0.4, 1, 0.4] }} transition={{ duration: 3, repeat: Infinity }}>✦</motion.text>
-        <motion.text x="398" y="150" fontSize="10" fill="#C8B4F0" fillOpacity="0.7"
-          animate={{ opacity: [0.3, 0.9, 0.3] }} transition={{ duration: 4, delay: 1, repeat: Infinity }}>✦</motion.text>
-        <motion.text x="410" y="345" fontSize="12" fill="#F6C85F" fillOpacity="0.6"
-          animate={{ opacity: [0.5, 1, 0.5] }} transition={{ duration: 5, delay: 2, repeat: Infinity }}>✦</motion.text>
+        {/* Gold rays from center */}
+        {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((deg, i) => {
+          const rad = (deg * Math.PI) / 180;
+          const len = i % 3 === 0 ? 90 : 55;
+          return (
+            <motion.line key={deg}
+              x1={250} y1={300}
+              x2={250 + Math.cos(rad) * len}
+              y2={300 + Math.sin(rad) * len}
+              stroke={i % 3 === 0 ? '#FFD54F' : '#CE93D8'}
+              strokeWidth={i % 3 === 0 ? 1.2 : 0.7}
+              strokeOpacity={i % 3 === 0 ? 0.55 : 0.3}
+              animate={{ opacity: [0.2, 0.7, 0.2] }}
+              transition={{ duration: 3 + i * 0.25, delay: i * 0.15, repeat: Infinity }}
+            />
+          );
+        })}
+
+        {/* Central crystal gem */}
+        <motion.g
+          animate={{ y: [0, -14, 0], rotate: [0, 2, -2, 0] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
+          style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+        >
+          {/* Glow halo */}
+          <ellipse cx="250" cy="300" rx="70" ry="70" fill="url(#gemGlow)" filter="url(#heroBlur)" />
+
+          {/* Main hexagon crystal */}
+          <polygon points="250,220 318,260 318,340 250,380 182,340 182,260"
+            fill="url(#crystalGrad)" opacity="0.93" filter="url(#softGlow)" />
+
+          {/* Facet highlights */}
+          <polygon points="250,220 318,260 250,300 182,260" fill="white" opacity="0.18" />
+          <polygon points="250,220 318,260 250,300" fill="white" opacity="0.12" />
+
+          {/* Bottom facets */}
+          <polygon points="318,340 250,380 250,300" fill="#4A148C" opacity="0.35" />
+          <polygon points="182,340 250,380 250,300" fill="#6A1B9A" opacity="0.28" />
+
+          {/* Crystal shine overlay */}
+          <polygon points="250,220 318,260 318,340 250,380 182,340 182,260"
+            fill="url(#crystalShine)" />
+
+          {/* Gold star in center */}
+          <motion.text x="250" y="310" fontSize="32" fill="#FFD54F"
+            textAnchor="middle" dominantBaseline="central"
+            animate={{ opacity: [0.7, 1, 0.7], scale: [0.9, 1.1, 0.9] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
+            style={{ userSelect: 'none' }}
+          >✦</motion.text>
+
+          {/* Vertex gems */}
+          <circle cx="250" cy="220" r="6" fill="#FFD54F" opacity="0.95" />
+          <circle cx="318" cy="260" r="5" fill="#CE93D8" opacity="0.9" />
+          <circle cx="318" cy="340" r="5" fill="#CE93D8" opacity="0.9" />
+          <circle cx="250" cy="380" r="6" fill="#9C27B0" opacity="0.85" />
+          <circle cx="182" cy="340" r="5" fill="#CE93D8" opacity="0.9" />
+          <circle cx="182" cy="260" r="5" fill="#CE93D8" opacity="0.9" />
+
+          {/* Inner edge lines */}
+          <line x1="250" y1="220" x2="250" y2="380" stroke="#FFD54F" strokeWidth="0.8" opacity="0.35" />
+          <line x1="182" y1="260" x2="318" y2="340" stroke="#FFD54F" strokeWidth="0.8" opacity="0.25" />
+          <line x1="318" y1="260" x2="182" y2="340" stroke="#FFD54F" strokeWidth="0.8" opacity="0.25" />
+        </motion.g>
+
+        {/* Orbiting dots */}
+        {[0, 72, 144, 216, 288].map((startDeg, i) => (
+          <motion.g key={i}
+            animate={{ rotate: [startDeg, startDeg + 360] }}
+            transition={{ duration: 12 + i * 2, repeat: Infinity, ease: 'linear' }}
+            style={{ transformBox: 'fill-box', transformOrigin: '250px 300px' }}
+          >
+            <circle cx={250 + 105} cy={300} r={i % 2 === 0 ? 4 : 2.5}
+              fill={i % 2 === 0 ? '#FFD54F' : '#CE93D8'}
+              opacity={i % 2 === 0 ? 0.9 : 0.7}
+            />
+          </motion.g>
+        ))}
+
+        {/* Outer sparkle stars */}
+        {STARS.map((s, i) => <StarBurst key={i} {...s} />)}
+
+        {/* Bottom ground reflection */}
+        <ellipse cx="250" cy="495" rx="100" ry="10"
+          fill="#C8B4F0" fillOpacity="0.15" filter="url(#heroBlur)" />
       </svg>
     </div>
   );
