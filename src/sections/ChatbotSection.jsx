@@ -45,10 +45,10 @@ function ChatMessage({ msg, isUser }) {
         padding: '12px 16px',
         borderRadius: isUser ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
         background: isUser
-          ? 'linear-gradient(135deg, #3E1F73, #2D6CDF)'
-          : 'rgba(255, 255, 255, 0.06)',
-        border: isUser ? 'none' : '1px solid rgba(185, 167, 232, 0.15)',
-        color: '#FAF8F4',
+          ? 'linear-gradient(135deg, #7B4BC8, #9B6BE8)'
+          : 'rgba(255, 255, 255, 0.8)',
+        border: isUser ? 'none' : '1px solid rgba(185, 167, 232, 0.3)',
+        color: isUser ? '#FFFFFF' : '#2D1B5E',
         fontSize: 13,
         lineHeight: 1.6,
         fontFamily: "'DM Sans', sans-serif",
@@ -120,7 +120,7 @@ export default function ChatbotSection() {
       id="chatbot"
       style={{
         padding: '100px 24px',
-        background: 'linear-gradient(180deg, #101A3D 0%, #0E1535 50%, #101A3D 100%)',
+        background: 'linear-gradient(180deg, #F5F0FF 0%, #EDE4FF 50%, #F5F0FF 100%)',
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -148,7 +148,7 @@ export default function ChatbotSection() {
             fontFamily: "'Playfair Display', serif",
             fontSize: 'clamp(28px, 4vw, 46px)',
             fontWeight: 500,
-            color: '#FAF8F4',
+            color: '#2D1B5E',
             lineHeight: 1.2,
             marginBottom: 14,
           }}>
@@ -163,7 +163,7 @@ export default function ChatbotSection() {
             </span>
           </h2>
           <p style={{
-            color: '#B9A7E8',
+            color: '#5A3D8A',
             fontSize: 15,
             maxWidth: 500,
             margin: '0 auto',
@@ -186,7 +186,7 @@ export default function ChatbotSection() {
           {/* Left: Type selector */}
           <div>
             <p style={{
-              color: '#B9A7E8',
+              color: '#5A3D8A',
               fontSize: 11,
               letterSpacing: '0.1em',
               textTransform: 'uppercase',
@@ -213,7 +213,7 @@ export default function ChatbotSection() {
                       : '1px solid rgba(185, 167, 232, 0.12)',
                     background: selectedType === t.type
                       ? `${t.color}20`
-                      : 'rgba(255,255,255,0.02)',
+                      : 'rgba(255,255,255,0.5)',
                     color: selectedType === t.type ? t.color : '#B9A7E8',
                     fontSize: 12,
                     fontFamily: "'DM Sans', sans-serif",
@@ -238,7 +238,7 @@ export default function ChatbotSection() {
                   exit={{ opacity: 0, y: -10 }}
                   transition={{ duration: 0.3 }}
                   style={{
-                    background: 'rgba(255,255,255,0.03)',
+                    background: 'rgba(255,255,255,0.6)',
                     border: '1px solid rgba(185, 167, 232, 0.12)',
                     borderRadius: 16,
                     padding: '24px',
@@ -250,7 +250,7 @@ export default function ChatbotSection() {
                       <p style={{
                         fontFamily: "'Playfair Display', serif",
                         fontSize: 18,
-                        color: '#FAF8F4',
+                        color: '#2D1B5E',
                         marginBottom: 2,
                       }}>
                         {currentType.title}
@@ -265,7 +265,7 @@ export default function ChatbotSection() {
                     </div>
                   </div>
                   <p style={{
-                    color: '#B9A7E8',
+                    color: '#5A3D8A',
                     fontSize: 12,
                     lineHeight: 1.6,
                     fontFamily: "'DM Sans', sans-serif",
@@ -296,7 +296,7 @@ export default function ChatbotSection() {
 
           {/* Right: Chat UI */}
           <div style={{
-            background: 'rgba(255,255,255,0.025)',
+            background: 'rgba(255,255,255,0.65)',
             border: '1px solid rgba(185, 167, 232, 0.12)',
             borderRadius: 20,
             overflow: 'hidden',
@@ -311,21 +311,21 @@ export default function ChatbotSection() {
               display: 'flex',
               alignItems: 'center',
               gap: 12,
-              background: 'rgba(255,255,255,0.02)',
+              background: 'rgba(255,255,255,0.5)',
             }}>
               <AuraAvatar type={selectedType} size={36} />
               <div>
                 <p style={{
                   fontFamily: "'DM Sans', sans-serif",
                   fontSize: 14,
-                  color: '#FAF8F4',
+                  color: '#2D1B5E',
                   fontWeight: 500,
                 }}>
                   {currentType?.title}
                 </p>
                 <p style={{
                   fontSize: 11,
-                  color: '#B9A7E8',
+                  color: '#5A3D8A',
                   fontFamily: "'DM Sans', sans-serif",
                 }}>
                   {selectedType} · Personality Guide
@@ -339,7 +339,7 @@ export default function ChatbotSection() {
                   background: '#4ADE80',
                   display: 'inline-block',
                 }} />
-                <span style={{ color: '#B9A7E8', fontSize: 11, fontFamily: "'DM Sans', sans-serif" }}>
+                <span style={{ color: '#5A3D8A', fontSize: 11, fontFamily: "'DM Sans', sans-serif" }}>
                   Active
                 </span>
               </div>
@@ -378,7 +378,7 @@ export default function ChatbotSection() {
                     borderRadius: 20,
                     background: 'rgba(185, 167, 232, 0.06)',
                     border: '1px solid rgba(185, 167, 232, 0.15)',
-                    color: '#B9A7E8',
+                    color: '#5A3D8A',
                     fontSize: 11,
                     fontFamily: "'DM Sans', sans-serif",
                     cursor: 'pointer',
@@ -417,11 +417,11 @@ export default function ChatbotSection() {
                 placeholder={`Ask about ${selectedType}...`}
                 style={{
                   flex: 1,
-                  background: 'rgba(255,255,255,0.04)',
+                  background: 'rgba(255,255,255,0.55)',
                   border: '1px solid rgba(185, 167, 232, 0.15)',
                   borderRadius: 12,
                   padding: '10px 14px',
-                  color: '#FAF8F4',
+                  color: '#2D1B5E',
                   fontSize: 13,
                   fontFamily: "'DM Sans', sans-serif",
                   outline: 'none',
@@ -458,7 +458,7 @@ export default function ChatbotSection() {
           transition={{ duration: 0.6, delay: 0.2 }}
           style={{
             textAlign: 'center',
-            color: '#5A5A7A',
+            color: '#8A7AAA',
             fontSize: 12,
             fontFamily: "'DM Sans', sans-serif",
             fontWeight: 300,
