@@ -7,6 +7,7 @@ const navLinks = [
   { label: 'Features', href: '#features' },
   { label: 'Personality Guide', href: '#chatbot' },
   { label: 'Pricing', href: '#pricing' },
+  { label: '✦ ค้นพบตัวเอง', href: '/discover', highlight: true },
 ];
 
 export default function Navigation() {
@@ -49,12 +50,17 @@ export default function Navigation() {
           <div style={{ display: 'flex', gap: 36, alignItems: 'center' }} className="hidden-mobile">
             {navLinks.map(link => (
               <a key={link.href} href={link.href} style={{
-                color: '#5A3D8A', textDecoration: 'none', fontSize: 14,
+                color: link.highlight ? '#7B4BC8' : '#5A3D8A',
+                textDecoration: 'none', fontSize: 14,
                 fontFamily: "'DM Sans', sans-serif", letterSpacing: '0.03em',
-                fontWeight: 400, transition: 'color 0.2s',
+                fontWeight: link.highlight ? 600 : 400, transition: 'color 0.2s',
+                background: link.highlight ? 'rgba(123,75,200,0.08)' : 'none',
+                padding: link.highlight ? '6px 14px' : '0',
+                borderRadius: link.highlight ? 50 : 0,
+                border: link.highlight ? '1px solid rgba(123,75,200,0.2)' : 'none',
               }}
-                onMouseEnter={e => e.target.style.color = '#7B4BC8'}
-                onMouseLeave={e => e.target.style.color = '#5A3D8A'}
+                onMouseEnter={e => { e.currentTarget.style.color = '#9B6BE8'; if (link.highlight) e.currentTarget.style.background = 'rgba(123,75,200,0.14)'; }}
+                onMouseLeave={e => { e.currentTarget.style.color = link.highlight ? '#7B4BC8' : '#5A3D8A'; if (link.highlight) e.currentTarget.style.background = 'rgba(123,75,200,0.08)'; }}
               >
                 {link.label}
               </a>

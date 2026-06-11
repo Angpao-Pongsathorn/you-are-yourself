@@ -124,7 +124,7 @@ export default function FinalCTA() {
           >
             เริ่ม Reflection ✨
           </a>
-          <a href="#chatbot" style={{
+          <a href="/discover" style={{
             padding: '16px 36px', borderRadius: 50,
             background: 'rgba(255, 255, 255, 0.7)', border: '1.5px solid rgba(123, 75, 200, 0.3)',
             color: '#7B4BC8', fontFamily: "'DM Sans', sans-serif", fontSize: 15, fontWeight: 500,
@@ -133,7 +133,7 @@ export default function FinalCTA() {
             onMouseEnter={e => { e.currentTarget.style.background = 'rgba(123, 75, 200, 0.08)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
             onMouseLeave={e => { e.currentTarget.style.background = 'rgba(255, 255, 255, 0.7)'; e.currentTarget.style.transform = 'translateY(0)'; }}
           >
-            Explore Your Type
+            ค้นพบรูปแบบของคุณ ✦
           </a>
           <a href="#pricing" style={{
             padding: '16px 36px', borderRadius: 50,
